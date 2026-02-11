@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbxi8pnqdpjBiMzfwv3kLFGritmgC9tg5oVMxKFugunQYtAwBZVnXnkPvEycOZYMEpAgnA/exec"; // <--- DEBES PONER TU URL DE GAS AQUÍ
+const API_URL = "https://script.google.com/macros/s/AKfycbxi8pnqdpjBiMzfwv3kLFGritmgC9tg5oVMxKFugunQYtAwBZVnXnkPvEycOZYMEpAgnA/exec";
 
 Promise.all([
   fetch(`${API_URL}?action=getJugadores`).then(r => r.json()),
@@ -10,13 +10,11 @@ Promise.all([
   tabla.innerHTML = "";
 
   jugadores.forEach(j => {
-    // Filtramos pagos y nos aseguramos de que existan
-    const pagosJugador = pagos.filter(p => p.id_jugador == j.id); // Usar == por si acaso viene como string
+    const pagosJugador = pagos.filter(p => p.id_jugador == j.id);
     if (pagosJugador.length === 0) return;
 
     const ultimo = pagosJugador[pagosJugador.length - 1];
     
-    // Validamos que exista proxima_fecha
     if(!ultimo.proxima_fecha) return;
 
     const proxima = new Date(ultimo.proxima_fecha);
@@ -25,7 +23,6 @@ Promise.all([
     let color = "bg-green-100";
     let mensaje = "";
 
-    // Calculamos diferencia en días
     const diffTime = proxima - hoy;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 

@@ -5,10 +5,12 @@ let datosPagos = [];
 document.addEventListener("DOMContentLoaded", () => {
   fetch(`${API_URL}?action=getPagos`)
     .then(res => res.json())
-    .then(data => datosPagos = data);
+    .then(data => datosPagos = data)
+    .catch(err => console.error("Error cargando reportes:", err));
 });
 
 function exportarExcel() {
+  if(datosPagos.length === 0) { alert("No hay datos para exportar"); return; }
   const ws = XLSX.utils.json_to_sheet(datosPagos);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Pagos");
@@ -16,6 +18,7 @@ function exportarExcel() {
 }
 
 function exportarPDF() {
+  if(datosPagos.length === 0) { alert("No hay datos para exportar"); return; }
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 

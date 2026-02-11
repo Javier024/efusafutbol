@@ -21,7 +21,8 @@ function cargarJugadores() {
           </tr>
         `;
       });
-    });
+    })
+    .catch(err => console.error("Error cargando jugadores:", err));
 }
 
 function guardarJugador(e) {
@@ -45,5 +46,6 @@ function guardarJugador(e) {
   }).then(() => {
     e.target.reset();
     cargarJugadores();
-  });
+    alert("Jugador guardado correctamente");
+  }).catch(err => console.error("Error guardando jugador:", err));
 }

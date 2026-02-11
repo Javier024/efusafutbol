@@ -51,6 +51,6 @@ function registrarPago(e) {
     body: JSON.stringify(pago)
   }).then(() => {
     e.target.reset();
-    alert("Pago registrado");
-  });
+    alert("Pago registrado con éxito");
+  }).catch(err => console.error("Error registrando pago:", err));
 }

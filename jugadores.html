@@ -13,7 +13,7 @@
 
 <main class="p-6">
 
-<form id="formJugador" class="bg-white p-6 rounded shadow grid grid-cols-2 gap-4 mb-6">
+<form id="formJugador" class="bg-white p-6 rounded shadow grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
 
   <input id="nombre" placeholder="Nombre" class="border p-2" required>
   <input id="apellido" placeholder="Apellido" class="border p-2" required>
@@ -36,10 +36,9 @@
   <input id="acudiente" placeholder="Acudiente" class="border p-2">
   <input id="telefono_acudiente" placeholder="Teléfono acudiente" class="border p-2">
 
-  <button class="bg-green-600 text-white p-2 rounded col-span-2">
+  <button class="bg-green-600 text-white p-2 rounded col-span-1 md:col-span-2">
     Guardar Jugador
   </button>
-
 </form>
 
 <div class="bg-white p-4 rounded shadow">
@@ -58,6 +57,7 @@
 
 </main>
 
-<script src="assets/js/jugadores.js"></script>
+<!-- RUTA CORREGIDA: js/jugadores.js -->
+<script src="js/jugadores.js"></script>
 </body>
 </html>
