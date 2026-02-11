@@ -1,4 +1,4 @@
-const API_URL = "PEGA_AQUI_TU_URL";
+const API_URL = "https://script.google.com/macros/s/AKfycbxi8pnqdpjBiMzfwv3kLFGritmgC9tg5oVMxKFugunQYtAwBZVnXnkPvEycOZYMEpAgnA/exec";
 const VALOR_MENSUAL = 50000;
 
 document.addEventListener("DOMContentLoaded", () => {

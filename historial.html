@@ -7,11 +7,24 @@
 </head>
 <body class="bg-gray-100 p-6">
 
-<select id="jugador" class="border p-2 mb-4"></select>
-<ul id="listaPagos" class="bg-white p-4 rounded shadow"></ul>
+<header class="bg-green-700 text-white p-4 mb-4 rounded">
+  <h1 class="text-xl font-bold">📜 Historial de Pagos</h1>
+</header>
+
+<div class="bg-white p-4 rounded shadow max-w-2xl mx-auto">
+  <label class="block mb-2 font-bold">Seleccionar Jugador:</label>
+  <select id="jugador" class="border p-2 mb-4 w-full rounded"></select>
+  
+  <h3 class="font-bold mb-2">Pagos realizados:</h3>
+  <ul id="listaPagos" class="list-disc pl-5"></ul>
+</div>
 
 <script>
-const API_URL = "PEGA_AQUI_TU_URL";
+const API_URL = "https://script.google.com/macros/s/AKfycbxi8pnqdpjBiMzfwv3kLFGritmgC9tg5oVMxKFugunQYtAwBZVnXnkPvEycOZYMEpAgnA/exec";
+
+// Referencias al DOM
+const selectJugador = document.getElementById("jugador");
+const listaPagos = document.getElementById("listaPagos");
 
 Promise.all([
   fetch(`${API_URL}?action=getJugadores`).then(r => r.json()),
@@ -19,19 +32,29 @@ Promise.all([
 ]).then(([jugadores, pagos]) => {
 
   jugadores.forEach(j => {
-    jugador.innerHTML += `<option value="${j.id}">${j.nombre} ${j.apellido}</option>`;
+    const option = document.createElement("option");
+    option.value = j.id;
+    option.innerText = `${j.nombre} ${j.apellido}`;
+    selectJugador.appendChild(option);
   });
 
-  jugador.addEventListener("change", () => {
+  selectJugador.addEventListener("change", () => {
     listaPagos.innerHTML = "";
-    pagos.filter(p => p.id_jugador === jugador.value)
-      .forEach(p => {
-        listaPagos.innerHTML += `
-          <li>${p.mes_inicio} → ${p.mes_fin} | $${p.total_pagado}</li>
-        `;
-      });
+    const pagosFiltrados = pagos.filter(p => p.id_jugador == selectJugador.value);
+    
+    if(pagosFiltrados.length === 0) {
+        listaPagos.innerHTML = "<li class='text-gray-500'>No hay pagos registrados.</li>";
+        return;
+    }
+
+    pagosFiltrados.forEach(p => {
+      const li = document.createElement("li");
+      li.className = "mb-2 p-2 border-b";
+      li.innerHTML = `<span class="font-bold">${p.mes_inicio} a ${p.mes_fin}</span> - $${p.total_pagado} (${p.tipo_pago})`;
+      listaPagos.appendChild(li);
+    });
   });
-});
+}).catch(err => console.error(err));
 </script>
 
 </body>
