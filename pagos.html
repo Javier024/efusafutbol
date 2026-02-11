@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pagos | EFUSA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<header class="bg-green-700 text-white p-4">
+  <h1 class="text-xl font-bold">💰 Pagos</h1>
+</header>
+
+<main class="p-6">
+
+<form id="formPago" class="bg-white p-6 rounded shadow grid grid-cols-2 gap-4 mb-6">
+
+  <select id="jugador" class="border p-2 col-span-2" required></select>
+
+  <input type="date" id="fecha_pago" class="border p-2" required>
+  <input type="month" id="mes_inicio" class="border p-2" required>
+
+  <input type="number" id="meses_pagados" class="border p-2" min="1" value="1" required>
+
+  <select id="tipo_pago" class="border p-2">
+    <option value="COMPLETO">Pago completo</option>
+    <option value="ABONO">Abono</option>
+  </select>
+
+  <button class="bg-green-600 text-white p-2 rounded col-span-2">
+    Registrar Pago
+  </button>
+
+</form>
+
+</main>
+
+<script src="assets/js/pagos.js"></script>
+</body>
+</html>

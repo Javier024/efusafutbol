@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historial | EFUSA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+<select id="jugador" class="border p-2 mb-4"></select>
+<ul id="listaPagos" class="bg-white p-4 rounded shadow"></ul>
+
+<script>
+const API_URL = "PEGA_AQUI_TU_URL";
+
+Promise.all([
+  fetch(`${API_URL}?action=getJugadores`).then(r => r.json()),
+  fetch(`${API_URL}?action=getPagos`).then(r => r.json())
+]).then(([jugadores, pagos]) => {
+
+  jugadores.forEach(j => {
+    jugador.innerHTML += `<option value="${j.id}">${j.nombre} ${j.apellido}</option>`;
+  });
+
+  jugador.addEventListener("change", () => {
+    listaPagos.innerHTML = "";
+    pagos.filter(p => p.id_jugador === jugador.value)
+      .forEach(p => {
+        listaPagos.innerHTML += `
+          <li>${p.mes_inicio} → ${p.mes_fin} | $${p.total_pagado}</li>
+        `;
+      });
+  });
+});
+</script>
+
+</body>
+</html>

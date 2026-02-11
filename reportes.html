@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reportes | EFUSA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+  <!-- PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-gray-100">
+
+<header class="bg-blue-700 text-white p-4">
+  <h1 class="text-xl font-bold">📊 Reportes</h1>
+</header>
+
+<main class="p-6">
+
+<div class="bg-white p-6 rounded shadow flex gap-4">
+  <button onclick="exportarExcel()" class="bg-green-600 text-white px-4 py-2 rounded">
+    Descargar Excel
+  </button>
+
+  <button onclick="exportarPDF()" class="bg-red-600 text-white px-4 py-2 rounded">
+    Descargar PDF
+  </button>
+</div>
+
+</main>
+
+<script src="assets/js/reportes.js"></script>
+</body>
+</html>

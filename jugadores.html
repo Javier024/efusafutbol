@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Jugadores | EFUSA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<header class="bg-green-700 text-white p-4">
+  <h1 class="text-xl font-bold">👤 Gestión de Jugadores</h1>
+</header>
+
+<main class="p-6">
+
+<form id="formJugador" class="bg-white p-6 rounded shadow grid grid-cols-2 gap-4 mb-6">
+
+  <input id="nombre" placeholder="Nombre" class="border p-2" required>
+  <input id="apellido" placeholder="Apellido" class="border p-2" required>
+
+  <input type="date" id="fecha_nacimiento" class="border p-2" required>
+
+  <select id="categoria" class="border p-2" required>
+    <option value="">Categoría</option>
+    <option>Sub 18-17</option>
+    <option>Sub 16-15</option>
+    <option>Sub 14-13</option>
+    <option>Sub 12-11</option>
+    <option>Sub 10-9</option>
+    <option>Sub 8-7</option>
+  </select>
+
+  <input id="identificacion" placeholder="Identificación" class="border p-2">
+  <input id="tipo_sangre" placeholder="Tipo de sangre" class="border p-2">
+
+  <input id="acudiente" placeholder="Acudiente" class="border p-2">
+  <input id="telefono_acudiente" placeholder="Teléfono acudiente" class="border p-2">
+
+  <button class="bg-green-600 text-white p-2 rounded col-span-2">
+    Guardar Jugador
+  </button>
+
+</form>
+
+<div class="bg-white p-4 rounded shadow">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="border-b">
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Categoría</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody id="tablaJugadores"></tbody>
+  </table>
+</div>
+
+</main>
+
+<script src="assets/js/jugadores.js"></script>
+</body>
+</html>
