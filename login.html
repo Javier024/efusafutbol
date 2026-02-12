@@ -4,31 +4,68 @@
   <meta charset="UTF-8">
   <title>Login | EFUSA</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+    <div class="text-center mb-6">
+      <i class="fas fa-futbol text-green-600 text-4xl mb-2"></i>
+      <h2 class="text-2xl font-bold text-gray-800">EFUSA</h2>
+      <p class="text-gray-600">Sistema de Gestión</p>
+    </div>
+    
+    <form id="loginForm">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="usuario">
+          <i class="fas fa-user mr-1"></i> Usuario
+        </label>
+        <input id="usuario" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Usuario" required>
+      </div>
+      
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="clave">
+          <i class="fas fa-lock mr-1"></i> Contraseña
+        </label>
+        <input id="clave" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Contraseña" required>
+      </div>
+      
+      <div class="flex items-center justify-between">
+        <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full transition" type="submit">
+          <i class="fas fa-sign-in-alt mr-2"></i> Ingresar
+        </button>
+      </div>
+      
+      <div class="mt-4 text-center text-sm text-gray-600">
+        <p>Usuario: admin | Contraseña: 1234</p>
+      </div>
+    </form>
+  </div>
 
-<form id="loginForm" class="bg-white p-6 rounded shadow w-80">
-  <h2 class="text-xl font-bold mb-4 text-center">🔐 Login Admin</h2>
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", e => {
+      e.preventDefault();
 
-  <input id="usuario" class="border p-2 w-full mb-3" placeholder="Usuario" required>
-  <input id="clave" type="password" class="border p-2 w-full mb-4" placeholder="Contraseña" required>
+      const usuario = document.getElementById("usuario").value;
+      const clave = document.getElementById("clave").value;
 
-  <button class="bg-green-600 text-white w-full p-2 rounded hover:bg-green-700">
-    Ingresar
-  </button>
-</form>
-
-<script>
-document.getElementById("loginForm").addEventListener("submit", e => {
-  e.preventDefault();
-
-  if (usuario.value === "admin" && clave.value === "1234") {
-    localStorage.setItem("auth", "true");
-    location.href = "index.html";
-  } else {
-    alert("Credenciales incorrectas");
-  }
-});
-</script>
+      if (usuario === "admin" && clave === "1234") {
+        localStorage.setItem("auth", "true");
+        location.href = "index.html";
+      } else {
+        // Mostrar notificación de error
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 bg-red-500 text-white';
+        notification.textContent = 'Credenciales incorrectas';
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.opacity = '0';
+          notification.style.transition = 'opacity 0.5s';
+          setTimeout(() => notification.remove(), 500);
+        }, 3000);
+      }
+    });
+  </script>
 </body>
 </html>

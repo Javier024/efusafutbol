@@ -4,39 +4,136 @@
   <meta charset="UTF-8">
   <title>Pagos | EFUSA</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="bg-gray-100">
 
-<header class="bg-green-700 text-white p-4">
-  <h1 class="text-xl font-bold">💰 Pagos</h1>
-</header>
+<script>
+if (localStorage.getItem("auth") !== "true") {
+  location.href = "login.html";
+}
+</script>
 
-<main class="p-6">
+<!-- Barra de navegación -->
+<nav class="bg-green-700 text-white p-4 shadow-lg">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-bold flex items-center">
+      <i class="fas fa-futbol mr-2"></i> EFUSA - Gestión de Pagos
+    </h1>
+    <div class="flex items-center space-x-4">
+      <button onclick="history.back()" class="bg-gray-600 hover:bg-gray-700 px-3 py-1 rounded text-sm">
+        <i class="fas fa-arrow-left mr-1"></i> Volver
+      </button>
+      <span class="text-sm">Admin</span>
+      <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
+        <i class="fas fa-sign-out-alt mr-1"></i> Cerrar sesión
+      </button>
+    </div>
+  </div>
+</nav>
 
-<form id="formPago" class="bg-white p-6 rounded shadow grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<!-- Menú de navegación -->
+<div class="bg-green-600 text-white p-2">
+  <div class="container mx-auto flex space-x-2">
+    <a href="index.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-home mr-1"></i> Dashboard
+    </a>
+    <a href="jugadores.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-users mr-1"></i> Jugadores
+    </a>
+    <a href="pagos.html" class="px-3 py-2 rounded bg-green-700 hover:bg-green-800 transition">
+      <i class="fas fa-money-bill-wave mr-1"></i> Pagos
+    </a>
+    <a href="alertas.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-exclamation-triangle mr-1"></i> Alertas
+    </a>
+    <a href="historial.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-history mr-1"></i> Historial
+    </a>
+    <a href="reportes.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-file-alt mr-1"></i> Reportes
+    </a>
+  </div>
+</div>
 
-  <select id="jugador" class="border p-2 col-span-1 md:col-span-2" required>
-    <option value="">Seleccione jugador</option>
-  </select>
+<main class="container mx-auto p-6">
 
-  <input type="date" id="fecha_pago" class="border p-2" required>
-  <input type="month" id="mes_inicio" class="border p-2" required>
-
-  <input type="number" id="meses_pagados" class="border p-2" min="1" value="1" required>
-
-  <select id="tipo_pago" class="border p-2">
-    <option value="COMPLETO">Pago completo</option>
-    <option value="ABONO">Abono</option>
-  </select>
-
-  <button class="bg-green-600 text-white p-2 rounded col-span-1 md:col-span-2">
+<div class="bg-white p-6 rounded shadow-lg mb-6">
+  <h2 class="text-xl font-bold mb-4 flex items-center">
+    <i class="fas fa-plus-circle mr-2 text-green-600"></i>
     Registrar Pago
-  </button>
-</form>
+  </h2>
+  
+  <form id="formPago" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="col-span-1 md:col-span-2">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Jugador</label>
+      <select id="jugador" class="border p-2 w-full rounded" required>
+        <option value="">Seleccione jugador</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de Pago</label>
+      <input type="date" id="fecha_pago" class="border p-2 w-full rounded" required>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Mes de Inicio</label>
+      <input type="month" id="mes_inicio" class="border p-2 w-full rounded" required>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Meses Pagados</label>
+      <input type="number" id="meses_pagados" class="border p-2 w-full rounded" min="1" value="1" required>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Pago</label>
+      <select id="tipo_pago" class="border p-2 w-full rounded">
+        <option value="COMPLETO">Pago completo</option>
+        <option value="ABONO">Abono</option>
+      </select>
+    </div>
+
+    <div class="col-span-1 md:col-span-2">
+      <button type="submit" class="bg-green-600 hover:bg-green-700 text-white p-2 rounded w-full transition">
+        <i class="fas fa-save mr-2"></i> Registrar Pago
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="bg-white p-6 rounded shadow-lg">
+  <h2 class="text-xl font-bold mb-4 flex items-center">
+    <i class="fas fa-list mr-2 text-green-600"></i>
+    Historial de Pagos
+  </h2>
+  
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b bg-gray-50">
+          <th class="text-left p-2">Jugador</th>
+          <th class="text-left p-2">Fecha</th>
+          <th class="text-left p-2">Periodo</th>
+          <th class="text-left p-2">Monto</th>
+          <th class="text-left p-2">Tipo</th>
+          <th class="text-left p-2">Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaPagos"></tbody>
+    </table>
+  </div>
+  
+  <!-- Paginación -->
+  <div id="paginacionPagos" class="mt-4"></div>
+</div>
 
 </main>
 
-<!-- RUTA CORREGIDA: js/pagos.js -->
+<!-- Scripts -->
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
 <script src="js/pagos.js"></script>
 </body>
 </html>

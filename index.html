@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>EFUSA | Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="bg-gray-100">
 
@@ -13,28 +14,112 @@ if (localStorage.getItem("auth") !== "true") {
 }
 </script>
 
-<nav class="bg-green-700 text-white p-4">
-  <h1 class="text-xl font-bold">⚽ EFUSA - Dashboard</h1>
+<!-- Barra de navegación -->
+<nav class="bg-green-700 text-white p-4 shadow-lg">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-bold flex items-center">
+      <i class="fas fa-futbol mr-2"></i> EFUSA - Dashboard
+    </h1>
+    <div class="flex items-center space-x-4">
+      <span class="text-sm">Admin</span>
+      <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
+        <i class="fas fa-sign-out-alt mr-1"></i> Cerrar sesión
+      </button>
+    </div>
+  </div>
 </nav>
 
-<main class="p-6">
-
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-  <div class="bg-white p-4 rounded shadow">👤 Jugadores: <b id="totalJugadores">0</b></div>
-  <div class="bg-white p-4 rounded shadow">💰 Total Pagos: <b id="totalPagos">$0</b></div>
-  <div class="bg-white p-4 rounded shadow">🚨 Deudores: <b id="deudores">0</b></div>
+<!-- Menú de navegación -->
+<div class="bg-green-600 text-white p-2">
+  <div class="container mx-auto flex space-x-2">
+    <a href="index.html" class="px-3 py-2 rounded bg-green-700 hover:bg-green-800 transition">
+      <i class="fas fa-home mr-1"></i> Dashboard
+    </a>
+    <a href="jugadores.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-users mr-1"></i> Jugadores
+    </a>
+    <a href="pagos.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-money-bill-wave mr-1"></i> Pagos
+    </a>
+    <a href="alertas.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-exclamation-triangle mr-1"></i> Alertas
+    </a>
+    <a href="historial.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-history mr-1"></i> Historial
+    </a>
+    <a href="reportes.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-file-alt mr-1"></i> Reportes
+    </a>
+  </div>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-  <a href="jugadores.html" class="bg-white p-4 rounded shadow hover:bg-gray-50">Jugadores</a>
-  <a href="pagos.html" class="bg-white p-4 rounded shadow hover:bg-gray-50">Pagos</a>
-  <a href="alertas.html" class="bg-white p-4 rounded shadow hover:bg-gray-50">Alertas</a>
-  <a href="reportes.html" class="bg-white p-4 rounded shadow hover:bg-gray-50">Reportes</a>
+<main class="container mx-auto p-6">
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+  <div class="bg-white p-6 rounded shadow-lg transform hover:scale-105 transition">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-gray-500 text-sm">Jugadores</p>
+        <p class="text-2xl font-bold" id="totalJugadores">0</p>
+      </div>
+      <div class="bg-blue-100 p-3 rounded-full">
+        <i class="fas fa-users text-blue-600 text-xl"></i>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bg-white p-6 rounded shadow-lg transform hover:scale-105 transition">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-gray-500 text-sm">Total Pagos</p>
+        <p class="text-2xl font-bold" id="totalPagos">$0</p>
+      </div>
+      <div class="bg-green-100 p-3 rounded-full">
+        <i class="fas fa-money-bill-wave text-green-600 text-xl"></i>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bg-white p-6 rounded shadow-lg transform hover:scale-105 transition">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-gray-500 text-sm">Deudores</p>
+        <p class="text-2xl font-bold" id="deudores">0</p>
+      </div>
+      <div class="bg-red-100 p-3 rounded-full">
+        <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bg-white p-6 rounded shadow-lg">
+  <h2 class="text-xl font-bold mb-4">Acciones Rápidas</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <a href="jugadores.html" class="bg-blue-500 text-white p-4 rounded-lg text-center hover:bg-blue-600 transition">
+      <i class="fas fa-user-plus text-2xl mb-2"></i>
+      <p>Nuevo Jugador</p>
+    </a>
+    <a href="pagos.html" class="bg-green-500 text-white p-4 rounded-lg text-center hover:bg-green-600 transition">
+      <i class="fas fa-plus-circle text-2xl mb-2"></i>
+      <p>Registrar Pago</p>
+    </a>
+    <a href="alertas.html" class="bg-orange-500 text-white p-4 rounded-lg text-center hover:bg-orange-600 transition">
+      <i class="fas fa-bell text-2xl mb-2"></i>
+      <p>Ver Alertas</p>
+    </a>
+    <a href="reportes.html" class="bg-purple-500 text-white p-4 rounded-lg text-center hover:bg-purple-600 transition">
+      <i class="fas fa-chart-bar text-2xl mb-2"></i>
+      <p>Generar Reporte</p>
+    </a>
+  </div>
 </div>
 
 </main>
 
-<!-- RUTA CORREGIDA: js/dashboard.js -->
+<!-- Scripts -->
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
 <script src="js/dashboard.js"></script>
 </body>
 </html>

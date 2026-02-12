@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <title>Reportes | EFUSA</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
   <!-- Excel -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
@@ -13,25 +14,96 @@
 </head>
 <body class="bg-gray-100">
 
-<header class="bg-blue-700 text-white p-4">
-  <h1 class="text-xl font-bold">📊 Reportes</h1>
-</header>
+<script>
+if (localStorage.getItem("auth") !== "true") {
+  location.href = "login.html";
+}
+</script>
 
-<main class="p-6">
+<!-- Barra de navegación -->
+<nav class="bg-green-700 text-white p-4 shadow-lg">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-bold flex items-center">
+      <i class="fas fa-futbol mr-2"></i> EFUSA - Reportes
+    </h1>
+    <div class="flex items-center space-x-4">
+      <button onclick="history.back()" class="bg-gray-600 hover:bg-gray-700 px-3 py-1 rounded text-sm">
+        <i class="fas fa-arrow-left mr-1"></i> Volver
+      </button>
+      <span class="text-sm">Admin</span>
+      <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
+        <i class="fas fa-sign-out-alt mr-1"></i> Cerrar sesión
+      </button>
+    </div>
+  </div>
+</nav>
 
-<div class="bg-white p-6 rounded shadow flex gap-4">
-  <button onclick="exportarExcel()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-    Descargar Excel
-  </button>
+<!-- Menú de navegación -->
+<div class="bg-green-600 text-white p-2">
+  <div class="container mx-auto flex space-x-2">
+    <a href="index.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-home mr-1"></i> Dashboard
+    </a>
+    <a href="jugadores.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-users mr-1"></i> Jugadores
+    </a>
+    <a href="pagos.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-money-bill-wave mr-1"></i> Pagos
+    </a>
+    <a href="alertas.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-exclamation-triangle mr-1"></i> Alertas
+    </a>
+    <a href="historial.html" class="px-3 py-2 rounded hover:bg-green-700 transition">
+      <i class="fas fa-history mr-1"></i> Historial
+    </a>
+    <a href="reportes.html" class="px-3 py-2 rounded bg-green-700 hover:bg-green-800 transition">
+      <i class="fas fa-file-alt mr-1"></i> Reportes
+    </a>
+  </div>
+</div>
 
-  <button onclick="exportarPDF()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-    Descargar PDF
-  </button>
+<main class="container mx-auto p-6">
+
+<div class="bg-white p-6 rounded shadow-lg max-w-2xl mx-auto">
+  <h2 class="text-xl font-bold mb-4 flex items-center">
+    <i class="fas fa-chart-bar mr-2 text-purple-600"></i>
+    Generar Reportes
+  </h2>
+  
+  <div class="mb-6">
+    <label class="block text-sm font-medium text-gray-700 mb-1">Categoría:</label>
+    <select id="categoria" class="border p-2 mb-4 w-full rounded">
+      <option value="todas">Todas las categorías</option>
+    </select>
+  </div>
+  
+  <div class="flex gap-4">
+    <button onclick="exportarExcel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition flex-1">
+      <i class="fas fa-file-excel mr-2"></i> Descargar Excel
+    </button>
+
+    <button onclick="exportarPDF()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition flex-1">
+      <i class="fas fa-file-pdf mr-2"></i> Descargar PDF
+    </button>
+  </div>
+  
+  <div class="mt-6 p-4 bg-blue-50 rounded">
+    <h3 class="font-bold mb-2 flex items-center">
+      <i class="fas fa-info-circle mr-2 text-blue-600"></i>
+      Información
+    </h3>
+    <p class="text-sm text-gray-700">
+      Los reportes incluirán información detallada de jugadores y pagos. 
+      Puedes filtrar por categoría para obtener reportes específicos.
+    </p>
+  </div>
 </div>
 
 </main>
 
-<!-- RUTA CORREGIDA: js/reportes.js -->
+<!-- Scripts -->
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
 <script src="js/reportes.js"></script>
 </body>
 </html>
