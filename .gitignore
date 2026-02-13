@@ -1,0 +1,8 @@
+# Dependencias
+node_modules/
+
+# Archivos generados por Tailwind
+css/styles.css
+
+# Otros archivos de sistema
+.DS_Store
