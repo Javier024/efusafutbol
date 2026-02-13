@@ -53,35 +53,6 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
 }
 
 /**
- * Configura el HTML para la paginación.
- * @param {number} totalItems - Número total de items.
- * @param {number} itemsPorPagina - Items a mostrar por página.
- * @param {number} paginaActual - Página actual.
- * @param {string} nombreFuncionCallback - Nombre de la función a la que se llamará al cambiar de página.
- * @returns {string} El HTML de la paginación.
- */
-function configurarPaginacion(totalItems, itemsPorPagina, paginaActual, nombreFuncionCallback) {
-  const totalPaginas = Math.ceil(totalItems / itemsPorPagina);
-  if (totalPaginas <= 1) return '';
-
-  let html = '<div class="flex justify-center items-center space-x-2 mt-4">';
-  
-  // Botón Anterior
-  html += `<button onclick="${nombreFuncionCallback}(${paginaActual - 1})" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 ${paginaActual === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${paginaActual === 1 ? 'disabled' : ''}>Anterior</button>`;
-  
-  // Números de página
-  for (let i = 1; i <= totalPaginas; i++) {
-    html += `<button onclick="${nombreFuncionCallback}(${i})" class="px-3 py-1 rounded ${i === paginaActual ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}">${i}</button>`;
-  }
-  
-  // Botón Siguiente
-  html += `<button onclick="${nombreFuncionCallback}(${paginaActual + 1})" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 ${paginaActual === totalPaginas ? 'opacity-50 cursor-not-allowed' : ''}" ${paginaActual === totalPaginas ? 'disabled' : ''}>Siguiente</button>`;
-  
-  html += '</div>';
-  return html;
-}
-
-/**
  * Verifica si el usuario está autenticado.
  * @returns {boolean} - True si está autenticado, de lo contrario redirige al login.
  */
@@ -105,6 +76,5 @@ function logout() {
 window.formatearFecha = formatearFecha;
 window.calcularEdad = calcularEdad;
 window.mostrarNotificacion = mostrarNotificacion;
-window.configurarPaginacion = configurarPaginacion;
 window.checkAuth = checkAuth;
 window.logout = logout;
