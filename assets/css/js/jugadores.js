@@ -50,7 +50,7 @@ function filtrarJugadores(termino = '', categoria = '') {
     const coincideTermino = !termino || 
       jugador.nombre.toLowerCase().includes(termino.toLowerCase()) ||
       jugador.apellido.toLowerCase().includes(termino.toLowerCase()) ||
-      jugador.documento.includes(termino);
+      (jugador.documento && jugador.documento.includes(termino));
     
     const coincideCategoria = !categoria || jugador.categoria === categoria;
     
@@ -83,7 +83,7 @@ function actualizarTablaJugadores() {
     fila.className = 'hover:bg-gray-50';
     
     fila.innerHTML = `
-      <td class="px-4 py-2 border-b">${jugador.documento}</td>
+      <td class="px-4 py-2 border-b">${jugador.documento || 'N/A'}</td>
       <td class="px-4 py-2 border-b">
         <div class="flex items-center">
           <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white mr-2">
@@ -171,7 +171,7 @@ async function verJugador(id) {
       
       // Llenar modal con los datos
       document.getElementById('verNombre').textContent = `${jugador.nombre} ${jugador.apellido}`;
-      document.getElementById('verDocumento').textContent = jugador.documento;
+      document.getElementById('verDocumento').textContent = jugador.documento || 'N/A';
       document.getElementById('verFechaNacimiento').textContent = formatearFecha(jugador.fecha_nacimiento);
       document.getElementById('verEdad').textContent = `${calcularEdad(jugador.fecha_nacimiento)} años`;
       document.getElementById('verCategoria').textContent = jugador.categoria || 'Sin asignar';
@@ -203,7 +203,7 @@ async function editarJugador(id) {
       document.getElementById('jugadorId').value = jugador.id;
       document.getElementById('nombre').value = jugador.nombre;
       document.getElementById('apellido').value = jugador.apellido;
-      document.getElementById('documento').value = jugador.documento;
+      document.getElementById('documento').value = jugador.documento || '';
       document.getElementById('fechaNacimiento').value = jugador.fecha_nacimiento;
       document.getElementById('categoria').value = jugador.categoria || '';
       document.getElementById('telefono').value = jugador.telefono || '';
@@ -212,7 +212,8 @@ async function editarJugador(id) {
       document.getElementById('nombrePadre').value = jugador.nombre_padre || '';
       document.getElementById('telefonoPadre').value = jugador.telefono_padre || '';
       document.getElementById('activo').checked = jugador.activo;
-      
+      document.getElementById('fechaInscripcion').value = jugador.fecha_inscripcion;
+
       // Cambiar título del modal
       document.getElementById('tituloModalJugador').textContent = 'Editar Jugador';
       
@@ -249,8 +250,9 @@ async function eliminarJugador(id) {
 async function guardarJugador(e) {
   e.preventDefault();
   
+  const jugadorId = document.getElementById('jugadorId').value;
   const jugador = {
-    id: document.getElementById('jugadorId').value,
+    id: jugadorId,
     nombre: document.getElementById('nombre').value,
     apellido: document.getElementById('apellido').value,
     documento: document.getElementById('documento').value,
@@ -262,7 +264,7 @@ async function guardarJugador(e) {
     nombre_padre: document.getElementById('nombrePadre').value,
     telefono_padre: document.getElementById('telefonoPadre').value,
     activo: document.getElementById('activo').checked,
-    fecha_inscripcion: document.getElementById('jugadorId').value ? 
+    fecha_inscripcion: jugadorId ? 
       document.getElementById('fechaInscripcion').value : 
       new Date().toISOString().split('T')[0]
   };
@@ -271,7 +273,7 @@ async function guardarJugador(e) {
     const response = await saveJugador(jugador);
     if (response.status === 'success') {
       mostrarNotificacion(
-        jugador.id ? 'Jugador actualizado correctamente' : 'Jugador creado correctamente',
+        jugadorId ? 'Jugador actualizado correctamente' : 'Jugador creado correctamente',
         'success'
       );
       

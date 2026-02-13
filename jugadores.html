@@ -58,95 +58,162 @@ if (localStorage.getItem("auth") !== "true") {
 
 <main class="container mx-auto p-6">
 
-<div class="bg-white p-6 rounded shadow-lg mb-6">
-  <h2 class="text-xl font-bold mb-4 flex items-center">
-    <i class="fas fa-user-plus mr-2 text-blue-600"></i>
-    Nuevo Jugador
-  </h2>
-  
-  <form id="formJugador" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-      <input id="nombre" placeholder="Nombre" class="border p-2 w-full rounded" required>
+  <!-- Barra de Búsqueda y Filtros -->
+  <div class="bg-white p-4 rounded shadow-lg mb-6 flex flex-col md:flex-row gap-4">
+    <div class="flex-1">
+      <input type="text" id="busquedaJugador" placeholder="Buscar por nombre, apellido o documento..." 
+             class="border p-2 w-full rounded">
     </div>
-    
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
-      <input id="apellido" placeholder="Apellido" class="border p-2 w-full rounded" required>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento</label>
-      <input type="date" id="fecha_nacimiento" class="border p-2 w-full rounded" required>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
-      <select id="categoria" class="border p-2 w-full rounded" required>
-        <option value="">Seleccionar categoría</option>
-        <option>Sub 18-17</option>
-        <option>Sub 16-15</option>
-        <option>Sub 14-13</option>
-        <option>Sub 12-11</option>
-        <option>Sub 10-9</option>
-        <option>Sub 8-7</option>
+      <select id="filtroCategoria" class="border p-2 rounded">
+        <option value="">Todas las categorías</option>
       </select>
     </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Identificación</label>
-      <input id="identificacion" placeholder="Identificación" class="border p-2 w-full rounded">
-    </div>
-    
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Sangre</label>
-      <input id="tipo_sangre" placeholder="Tipo de sangre" class="border p-2 w-full rounded">
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Acudiente</label>
-      <input id="acudiente" placeholder="Acudiente" class="border p-2 w-full rounded">
-    </div>
-    
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono Acudiente</label>
-      <input id="telefono_acudiente" placeholder="Teléfono acudiente" class="border p-2 w-full rounded">
-    </div>
-
-    <div class="col-span-1 md:col-span-2">
-      <button type="submit" class="bg-green-600 hover:bg-green-700 text-white p-2 rounded w-full transition">
-        <i class="fas fa-save mr-2"></i> Guardar Jugador
-      </button>
-    </div>
-  </form>
-</div>
-
-<div class="bg-white p-6 rounded shadow-lg">
-  <h2 class="text-xl font-bold mb-4 flex items-center">
-    <i class="fas fa-list mr-2 text-blue-600"></i>
-    Lista de Jugadores
-  </h2>
-  
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm">
-      <thead>
-        <tr class="border-b bg-gray-50">
-          <th class="text-left p-2">Nombre</th>
-          <th class="text-left p-2">Apellido</th>
-          <th class="text-left p-2">Categoría</th>
-          <th class="text-left p-2">Estado</th>
-          <th class="text-left p-2">Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="tablaJugadores"></tbody>
-    </table>
+    <button onclick="nuevoJugador()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">
+      <i class="fas fa-plus mr-2"></i> Nuevo Jugador
+    </button>
   </div>
-  
-  <!-- Paginación -->
-  <div id="paginacion" class="mt-4"></div>
-</div>
+
+  <div class="bg-white p-6 rounded shadow-lg">
+    <h2 class="text-xl font-bold mb-4 flex items-center">
+      <i class="fas fa-list mr-2 text-blue-600"></i>
+      Lista de Jugadores
+    </h2>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b bg-gray-50">
+            <th class="text-left p-2">Documento</th>
+            <th class="text-left p-2">Nombre Completo</th>
+            <th class="text-left p-2">Edad</th>
+            <th class="text-left p-2">Categoría</th>
+            <th class="text-left p-2">Teléfono</th>
+            <th class="text-left p-2">Fecha Inscripción</th>
+            <th class="text-left p-2">Estado</th>
+            <th class="text-left p-2">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaJugadores"></tbody>
+      </table>
+    </div>
+    
+    <!-- Paginación -->
+    <div id="paginacionJugadores" class="mt-4"></div>
+  </div>
 
 </main>
+
+<!-- Modal para Crear/Editar Jugador -->
+<div id="modalJugador" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <h3 id="tituloModalJugador" class="text-lg font-bold mb-4">Nuevo Jugador</h3>
+    <form id="formJugador" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input type="hidden" id="jugadorId">
+      <input type="hidden" id="fechaInscripcion">
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+        <input id="nombre" placeholder="Nombre" class="border p-2 w-full rounded" required>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
+        <input id="apellido" placeholder="Apellido" class="border p-2 w-full rounded" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Documento</label>
+        <input id="documento" placeholder="Documento" class="border p-2 w-full rounded">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento</label>
+        <input type="date" id="fechaNacimiento" class="border p-2 w-full rounded" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+        <select id="categoria" class="border p-2 w-full rounded" required>
+          <option value="">Seleccionar categoría</option>
+          <option>Sub 18-17</option>
+          <option>Sub 16-15</option>
+          <option>Sub 14-13</option>
+          <option>Sub 12-11</option>
+          <option>Sub 10-9</option>
+          <option>Sub 8-7</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+        <input id="telefono" placeholder="Teléfono" class="border p-2 w-full rounded">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input id="email" type="email" placeholder="Email" class="border p-2 w-full rounded">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+        <input id="direccion" placeholder="Dirección" class="border p-2 w-full rounded">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Padre/Acudiente</label>
+        <input id="nombrePadre" placeholder="Nombre del acudiente" class="border p-2 w-full rounded">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono Padre/Acudiente</label>
+        <input id="telefonoPadre" placeholder="Teléfono del acudiente" class="border p-2 w-full rounded">
+      </div>
+      
+      <div class="col-span-2">
+        <label class="flex items-center">
+          <input type="checkbox" id="activo" checked class="mr-2">
+          <span class="text-sm font-medium text-gray-700">Jugador Activo</span>
+        </label>
+      </div>
+
+      <div class="col-span-2 flex justify-end space-x-2">
+        <button type="button" onclick="cerrarModalJugador()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+          Cancelar
+        </button>
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+          <i class="fas fa-save mr-2"></i> Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para Ver Detalles del Jugador -->
+<div id="modalVerJugador" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 w-full max-w-md">
+    <h3 class="text-lg font-bold mb-4">Detalles del Jugador</h3>
+    <div class="space-y-2 text-sm">
+      <p><strong>Nombre:</strong> <span id="verNombre"></span></p>
+      <p><strong>Documento:</strong> <span id="verDocumento"></span></p>
+      <p><strong>Fecha Nacimiento:</strong> <span id="verFechaNacimiento"></span></p>
+      <p><strong>Edad:</strong> <span id="verEdad"></span></p>
+      <p><strong>Categoría:</strong> <span id="verCategoria"></span></p>
+      <p><strong>Teléfono:</strong> <span id="verTelefono"></span></p>
+      <p><strong>Email:</strong> <span id="verEmail"></span></p>
+      <p><strong>Dirección:</strong> <span id="verDireccion"></span></p>
+      <p><strong>Acudiente:</strong> <span id="verNombrePadre"></span></p>
+      <p><strong>Tel. Acudiente:</strong> <span id="verTelefonoPadre"></span></p>
+      <p><strong>Fecha Inscripción:</strong> <span id="verFechaInscripcion"></span></p>
+      <p><strong>Estado:</strong> <span id="verEstado"></span></p>
+    </div>
+    <div class="mt-6 flex justify-end">
+      <button onclick="cerrarModalVerJugador()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- Scripts -->
 <script src="js/api.js"></script>
