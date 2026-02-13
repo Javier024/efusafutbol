@@ -1,39 +1,30 @@
-// js/dashboard.js
-document.addEventListener('DOMContentLoaded', async () => {
+// Archivo: js/dashboard.js
+
+// Función para cargar el resumen del dashboard
+async function cargarResumenDashboard() {
+  // Simulación de datos para el dashboard
+  // En el futuro, esto podría venir de tu API
+  const resumen = {
+    totalJugadores: 150,
+    totalPagos: 3500000, // Valor en pesos
+    deudores: 8
+  };
+
+  // Actualizar las tarjetas del dashboard con los datos
+  // Usamos IDs que coinciden con el HTML
+  const totalJugadoresEl = document.getElementById('totalJugadores');
+  const totalPagosEl = document.getElementById('totalPagos');
+  const deudoresEl = document.getElementById('deudores');
+
+  if (totalJugadoresEl) totalJugadoresEl.textContent = resumen.totalJugadores;
+  if (totalPagosEl) totalPagosEl.textContent = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(resumen.totalPagos);
+  if (deudoresEl) deudoresEl.textContent = resumen.deudores;
+}
+
+// Cargar los datos cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  // La verificación de autenticación ya se hace en el HTML, pero es bueno tenerla aquí también
   checkAuth();
-  
-  try {
-    // Obtener datos de la API
-    const jugadores = await window.api.getJugadores();
-    const pagos = await window.api.getPagos();
-    
-    // Actualizar contadores
-    document.getElementById('totalJugadores').textContent = jugadores.length;
-    
-    // Calcular total de pagos
-    const totalPagos = pagos.reduce((sum, pago) => sum + parseFloat(pago.monto || 0), 0);
-    document.getElementById('totalPagos').textContent = formatCurrency(totalPagos);
-    
-    // Calcular deudores (jugadores con pagos pendientes)
-    const deudores = jugadores.filter(jugador => {
-      const ultimoPago = pagos
-        .filter(pago => pago.id_jugador === jugador.id)
-        .sort((a, b) => new Date(b.fecha_pago) - new Date(a.fecha_pago))[0];
-      
-      if (!ultimoPago) return true; // Sin pagos registrados
-      
-      const fechaUltimoPago = new Date(ultimoPago.fecha_pago);
-      const fechaActual = new Date();
-      const mesesDiferencia = (fechaActual.getFullYear() - fechaUltimoPago.getFullYear()) * 12 + 
-                              (fechaActual.getMonth() - fechaUltimoPago.getMonth());
-      
-      return mesesDiferencia > 1; // Considerar deudor si no paga en más de 1 mes
-    });
-    
-    document.getElementById('deudores').textContent = deudores.length;
-    
-  } catch (error) {
-    console.error('Error al cargar datos del dashboard:', error);
-    showNotification('Error al cargar datos del dashboard', 'error');
-  }
+  cargarResumenDashboard();
+  console.log("Dashboard cargado.");
 });
